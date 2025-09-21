@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Noah AI | How it Works</title>
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background: #f5f8fa;
+      margin: 0;
+      padding: 40px;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 2.5rem;
+      color: #1d3557;
+    }
+
+    .accordion {
+      max-width: 800px;
+      margin: auto;
+    }
+
+    .accordion-item {
+      background: #fff;
+      margin: 15px 0;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .accordion-header {
+      padding: 18px 20px;
+      cursor: pointer;
+      font-size: 1.2rem;
+      font-weight: bold;
+      background: #457b9d;
+      color: #fff;
+      transition: background 0.3s ease;
+    }
+
+    .accordion-header:hover {
+      background: #1d3557;
+    }
+
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      background: #f9f9f9;
+      padding: 0 20px;
+      transition: max-height 0.5s ease, padding 0.3s ease;
+    }
+
+    .accordion-content.open {
+      padding: 20px;
+    }
+
+    .accordion-content ul {
+      margin: 0;
+      padding: 0 20px;
+      list-style: disc;
+    }
+
+    .accordion-content li {
+      margin: 10px 0;
+      font-size: 1rem;
+    }
+
+   
+    .accordion-item.open {
+      transform: scale(1.02);
+    }
+  </style>
+</head>
+<body>
+
+  <h1>How Noah AI Works</h1>
+
+  <div class="accordion">
+    
+    
+    <div class="accordion-item">
+      <div class="accordion-header">🤖 Generative AI for Mental Wellness</div>
+      <div class="accordion-content">
+        <ul>
+          <li>Personalized conversation using AI for emotional support.</li>
+          <li>Provides coping strategies for stress, anxiety, and depression.</li>
+          <li>Delivers evidence-based mindfulness and relaxation tips.</li>
+          <li>Adapts to user’s language and cultural context.</li>
+          <li>Offers 24/7 support without judgment.</li>
+          <li>Escalates to human experts when needed.</li>
+        </ul>
+      </div>
+    </div>
+
+  
+    <div class="accordion-item">
+      <div class="accordion-header">📊 Mood Tracker</div>
+      <div class="accordion-content">
+        <ul>
+          <li>Daily emotion logging with emojis or sliders.</li>
+          <li>Tracks stress, happiness, anxiety levels over time.</li>
+          <li>Provides weekly/monthly mood reports.</li>
+          <li>Helps identify emotional patterns and triggers.</li>
+          <li>Connects mood data with journaling for deeper insights.</li>
+          <li>Encourages consistency through reminders.</li>
+        </ul>
+      </div>
+    </div>
+
+   
+    <div class="accordion-item">
+      <div class="accordion-header">📝 Journal</div>
+      <div class="accordion-content">
+        <ul>
+          <li>Secure personal space for thoughts and reflections.</li>
+          <li>Daily prompts to encourage emotional expression.</li>
+          <li>Tracks progress in personal growth and mental well-being.</li>
+          <li>Integrates with mood tracker for better self-awareness.</li>
+          <li>Supports multimedia entries (text, audio, images).</li>
+          <li>Offers AI-powered reflection summaries.</li>
+        </ul>
+      </div>
+    </div>
+
+   
+    <div class="accordion-item">
+      <div class="accordion-header">⚖️ Legal Compliance</div>
+      <div class="accordion-content">
+        <ul>
+          <li>Follows <b>Article 21</b> (Right to Life & Personal Liberty – includes mental health).</li>
+          <li>Complies with <b>Mental Healthcare Act, 2017 (India)</b>.</li>
+          <li>Ensures data privacy under <b>Article 21 & IT Act, 2000</b>.</li>
+          <li>In line with <b>GDPR (EU)</b> for data protection principles.</li>
+          <li>Maintains ethical use of AI in mental wellness.</li>
+          <li>Transparency & user consent in all services.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const items = document.querySelectorAll(".accordion-item");
+
+    items.forEach(item => {
+      const header = item.querySelector(".accordion-header");
+      header.addEventListener("click", () => {
+        const openItem = document.querySelector(".accordion-item.open");
+        if (openItem && openItem !== item) {
+          openItem.classList.remove("open");
+          openItem.querySelector(".accordion-content").style.maxHeight = null;
+          openItem.querySelector(".accordion-content").classList.remove("open");
+        }
+        
+        item.classList.toggle("open");
+        const content = item.querySelector(".accordion-content");
+        if (item.classList.contains("open")) {
+          content.style.maxHeight = content.scrollHeight + "px";
+          content.classList.add("open");
+        } else {
+          content.style.maxHeight = null;
+          content.classList.remove("open");
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

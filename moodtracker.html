@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mood Tracker</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-image: url('images2/mood1.jpg'); 
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      color: #fff;
+    }
+
+  
+    .navbar {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      padding: 10px 0;
+      background: rgba(0,0,0,0.5); 
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      flex-wrap: wrap;
+    }
+
+    .navbar button {
+      border: none;
+      padding: 10px 18px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      color: #fff;
+      transition: transform 0.2s ease;
+    }
+
+    .navbar button:hover {
+      transform: scale(1.05);
+    }
+
+    
+    .btn-mood { background-color: #ff8a65; } 
+    .btn-breath { background-color: #4db6ac; } 
+    .btn-question { background-color: #9575cd; } 
+
+    .tracker-container {
+      background: rgba(0, 0, 0, 0.5);
+      padding: 40px;
+      border-radius: 20px;
+      text-align: center;
+      max-width: 500px;
+      width: 90%;
+      max-height: 80vh;
+      margin: 20px auto;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      color: #ffeb3b;
+    }
+
+    .emoji-slider {
+      display: flex;
+      justify-content: space-between;
+      margin: 20px 0;
+    }
+
+    .emoji-slider input[type="range"] {
+      width: 100%;
+      margin: 0 10px;
+    }
+
+    .log-btn {
+      background: #4fc3f7;
+      color: #fff;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: transform 0.2s ease, background 0.3s ease;
+    }
+
+    .log-btn:hover {
+      background: #0288d1;
+      transform: scale(1.05);
+    }
+
+    #log-result {
+      margin-top: 20px;
+      text-align: left;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .log-entry {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 8px 12px;
+      border-radius: 12px;
+      margin-bottom: 8px;
+    }
+
+    .log-entry strong {
+      color: #ffeb3b;
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="navbar">
+    <button class="btn-mood" onclick="window.location.href='improvement.html'">How to Improve Your Mood</button>
+    <button class="btn-breath" onclick="window.location.href='breathing.html'">Basic Breathing Exercises</button>
+    <button class="btn-question" onclick="window.location.href='questionnaires.html'">Stress/Anxiety/Depression Questionnaires</button>
+  </div>
+
+  <div class="tracker-container">
+    <h1>Mood Tracker</h1>
+    <p>Slide to log your current mood:</p>
+
+    <div class="emoji-slider">
+      <span>😢</span>
+      <input type="range" id="mood-range" min="1" max="5" value="3">
+      <span>😁</span>
+    </div>
+
+    <button class="log-btn" onclick="logMood()">Log Mood</button>
+
+    <div id="log-result"></div>
+  </div>
+
+  <script>
+  
+    let moodLogs = JSON.parse(localStorage.getItem("moodLogs")) || [];
+
+    function displayLogs() {
+      const logContainer = document.getElementById("log-result");
+      logContainer.innerHTML = "";
+      moodLogs.forEach(log => {
+        const entry = document.createElement("div");
+        entry.className = "log-entry";
+        entry.innerHTML = `<strong>[${log.datetime}]</strong> ${log.text}`;
+        logContainer.appendChild(entry);
+      });
+    }
+
+    function formatDate(date) {
+      const dd = String(date.getDate()).padStart(2, '0');
+      const mm = String(date.getMonth() + 1).padStart(2, '0');
+      const yyyy = date.getFullYear();
+      const hh = String(date.getHours()).padStart(2, '0');
+      const min = String(date.getMinutes()).padStart(2, '0');
+      const sec = String(date.getSeconds()).padStart(2, '0');
+      return `${dd}/${mm}/${yyyy} ${hh}:${min}:${sec}`;
+    }
+
+    function logMood() {
+      const mood = document.getElementById("mood-range").value;
+      let moodText = "";
+
+      switch(mood) {
+        case "1":
+          moodText = "Very Sad 😢";
+          break;
+        case "2":
+          moodText = "Sad 😟";
+          break;
+        case "3":
+          moodText = "Neutral 😐";
+          break;
+        case "4":
+          moodText = "Happy 🙂";
+          break;
+        case "5":
+          moodText = "Very Happy 😁";
+          break;
+      }
+
+      const now = new Date();
+      const datetime = formatDate(now);
+      const logEntry = { text: moodText, datetime: datetime };
+
+      moodLogs.unshift(logEntry); 
+      localStorage.setItem("moodLogs", JSON.stringify(moodLogs));
+
+      displayLogs();
+    }
+
+    displayLogs();
+  </script>
+</body>
+</html>

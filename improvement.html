@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Improve Your Mood</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to right, #a8edea, #fed6e3); 
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Navbar */
+    .navbar {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      padding: 12px 0;
+      background: rgba(255, 255, 255, 0.7);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      flex-wrap: wrap;
+      backdrop-filter: blur(5px);
+    }
+
+    .navbar button {
+      border: none;
+      padding: 10px 18px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      color: #fff;
+      transition: transform 0.2s ease;
+    }
+
+    .navbar button:hover {
+      transform: scale(1.05);
+    }
+
+    .btn-mood { background-color: #ff8a65; }
+    .btn-breath { background-color: #4db6ac; }
+    .btn-question { background-color: #9575cd; }
+
+    .container {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    h1 {
+      text-align: center;
+      color: #ff7043;
+      margin-bottom: 25px;
+    }
+
+    h2 {
+      color: #6a1b9a;
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      line-height: 1.7;
+      margin-bottom: 15px;
+      font-size: 1rem;
+    }
+
+    ul {
+      margin-left: 20px;
+      margin-bottom: 15px;
+    }
+
+    li {
+      margin-bottom: 10px;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="navbar">
+    <button class="btn-mood" onclick="window.location.href='improvement.html'">How to Improve Your Mood</button>
+    <button class="btn-breath" onclick="window.location.href='breathing.html'">Basic Breathing Exercises</button>
+    <button class="btn-question" onclick="window.location.href='questionnaires.html'">Stress/Anxiety/Depression Questionnaires</button>
+  </div>
+
+  <div class="container">
+    <h1>How to Improve Your Mood</h1>
+    
+    <h2>At Home</h2>
+    <ul>
+      <li><strong>Engage in a Hobby:</strong> Dive into a creative hobby you enjoy, such as drawing, painting, or playing a musical instrument. This can help you focus on something positive and productive.</li>
+      <li><strong>Listen to Music:</strong> Create a playlist of uplifting songs. Listening to music can have a powerful effect on your mood and energy levels.</li>
+      <li><strong>Practice Mindfulness or Meditation:</strong> Find a quiet space and spend a few minutes focusing on your breath. This can help calm your mind and reduce feelings of stress.</li>
+      <li><strong>Do Some Light Tidying:</strong> Organize a small space, like a desk or a closet. A clean and organized environment can help you feel more in control and reduce feelings of being overwhelmed.</li>
+    </ul>
+
+    <h2>By Stepping Out</h2>
+    <ul>
+      <li><strong>Go for a Walk:</strong> Take a walk in a park or around your neighborhood. Being in nature and getting some light exercise can significantly improve your mood.</li>
+      <li><strong>Connect with a Friend:</strong> Meet a friend for coffee or a quick chat. Social interaction and talking to someone you trust can provide comfort and a fresh perspective.</li>
+      <li><strong>Visit a Local Museum or Library:</strong> Explore a new environment. Engaging your mind with art, history, or new books can be a great distraction and a source of inspiration.</li>
+      <li><strong>Try a New Cafe:</strong> Step out of your routine by visiting a new coffee shop or a cozy spot. A change of scenery can help you feel refreshed and break a cycle of negative thoughts.</li>
+    </ul>
+  </div>
+</body>
+</html>

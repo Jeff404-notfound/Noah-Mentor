@@ -1,0 +1,237 @@
+/* ================== Body & Background ================== */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  color: #333;
+  /* Background image with semi-transparent overlay */
+  background: 
+    linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.85)),
+    url('images/background.jpg') no-repeat center center fixed;
+  background-size: cover;
+}
+
+/* ================== Header & Navbar ================== */
+header {
+  background: #ffffffcc; /* semi-transparent white */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 50px;
+}
+
+.navbar .logo {
+  font-weight: bold;
+  font-size: 1.4rem;
+  color: #2e7d32; /* green accent */
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.navbar ul li a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+}
+
+.nav-buttons button {
+  margin-left: 10px;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.login {
+  background: #fff;
+  border: 1px solid #2e7d32;
+  color: #2e7d32;
+}
+
+.signup {
+  background: #2e7d32;
+  color: white;
+}
+
+/* ================== Hero Section ================== */
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 50px;
+  background: rgba(255,255,255,0.9);
+  border-radius: 10px;
+  margin: 20px;
+}
+
+.hero-text {
+  max-width: 50%;
+}
+
+.hero-text h1 {
+  font-size: 2.5rem;
+  color: #2e7d32;
+}
+
+.hero-text p {
+  margin: 20px 0;
+}
+
+.cta-btn {
+  background: #2e7d32;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+.hero-img img {
+  width: 220px;
+  border-radius: 15px;
+}
+
+/* ================== Features Section ================== */
+.features {
+  text-align: center;
+  padding: 50px;
+  background: rgba(255,255,255,0.9);
+  border-radius: 10px;
+  margin: 20px;
+}
+
+.feature-cards {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 15px;
+  width: 220px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.card img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+/* ================== Counselors Section ================== */
+.counselors {
+  background: rgba(255,255,255,0.9);
+  padding: 50px;
+  text-align: center;
+  border-radius: 10px;
+  margin: 20px;
+}
+
+.counselor-cards {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.counselor-card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 15px;
+  width: 180px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.counselor-card img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+/* ================== Footer ================== */
+footer {
+  text-align: center;
+  padding: 15px;
+  background: #2e7d32;
+  color: white;
+}
+
+/* ================== Chatbox ================== */
+#chatbox {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 450px;
+  height: 500px;
+  background: rgba(255,255,255,0.95);
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 9999;
+  font-family: sans-serif;
+}
+
+#chat-header {
+  user-select: none;
+  background: #2e7d32;
+  color: white;
+  padding: 10px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#chat-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+#messages {
+  flex: 1;
+  padding: 12px;
+  overflow-y: auto;
+  border-bottom: 1px solid #ccc;
+  font-size: 0.95rem;
+}
+
+#chatbox div.flex {
+  display: flex;
+  border-top: 1px solid #ccc;
+  gap: 10px;
+}
+
+#chatbox input {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #ccc;
+  outline: none;
+  background: #f9f9f9;
+  color: #333;
+  font-size: 0.95rem;
+  border-radius: 6px;
+}
+
+#chatbox button {
+  padding: 12px 18px;
+  background: #2e7d32;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  border-radius: 6px;
+}

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stress, Anxiety & Depression Questionnaires</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to right, #ffe0b2, #ffcc80); 
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    
+    .navbar {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      padding: 12px 0;
+      background: rgba(255, 255, 255, 0.7);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      flex-wrap: wrap;
+      backdrop-filter: blur(5px);
+    }
+
+    .navbar button {
+      border: none;
+      padding: 10px 18px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      color: #fff;
+      transition: transform 0.2s ease;
+    }
+
+    .navbar button:hover {
+      transform: scale(1.05);
+    }
+
+    .btn-mood { background-color: #ff8a65; } 
+    .btn-breath { background-color: #4db6ac; } 
+    .btn-question { background-color: #9575cd; } 
+
+    .container {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    h1 {
+      text-align: center;
+      color: #e65100;
+      margin-bottom: 25px;
+    }
+
+    h2 {
+      color: #bf360c;
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      line-height: 1.7;
+      margin-bottom: 15px;
+      font-size: 1rem;
+    }
+
+    ol {
+      margin-left: 20px;
+      margin-bottom: 15px;
+    }
+
+    li {
+      margin-bottom: 15px;
+    }
+
+    li strong {
+      color: #d84315;
+    }
+
+    .subsection {
+      background: rgba(255, 230, 204, 0.7);
+      padding: 15px 20px;
+      border-radius: 15px;
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="navbar">
+    <button class="btn-mood" onclick="window.location.href='improvement.html'">How to Improve Your Mood</button>
+    <button class="btn-breath" onclick="window.location.href='breathing.html'">Basic Breathing Exercises</button>
+    <button class="btn-question" onclick="window.location.href='questionnaires.html'">Stress/Anxiety/Depression Questionnaires</button>
+  </div>
+
+  <div class="container">
+    <h1>Stress, Anxiety & Depression Questionnaires</h1>
+    <p>Here are four scientifically validated questionnaires for stress, anxiety, and depression, with sample questions and response options.</p>
+
+    <div class="subsection">
+      <h2>1. Patient Health Questionnaire (PHQ-9) for Depression</h2>
+      <p>9-item self-report measure to screen for depression over the last two weeks.</p>
+      <strong>Sample Questions:</strong>
+      <ul>
+        <li>Little interest or pleasure in doing things?</li>
+        <li>Feeling down, depressed, or hopeless?</li>
+        <li>Trouble falling or staying asleep, or sleeping too much?</li>
+        <li>Feeling tired or having little energy?</li>
+        <li>Poor appetite or overeating?</li>
+      </ul>
+      <strong>Response Options:</strong>
+      <p>Not at all | Several days | More than half the days | Nearly every day</p>
+    </div>
+
+    <div class="subsection">
+      <h2>2. Generalized Anxiety Disorder 7 (GAD-7) for Anxiety</h2>
+      <p>7-item questionnaire measuring severity of generalized anxiety disorder over the past two weeks.</p>
+      <strong>Sample Questions:</strong>
+      <ul>
+        <li>Feeling nervous, anxious, or on edge?</li>
+        <li>Not being able to stop or control worrying?</li>
+        <li>Worrying too much about different things?</li>
+        <li>Trouble relaxing?</li>
+        <li>Becoming easily annoyed or irritable?</li>
+      </ul>
+      <strong>Response Options:</strong>
+      <p>Not at all | Several days | More than half the days | Nearly every day</p>
+    </div>
+
+    <div class="subsection">
+      <h2>3. Perceived Stress Scale (PSS-10) for Stress</h2>
+      <p>10-item instrument to measure perception of stress over the past month.</p>
+      <strong>Sample Questions:</strong>
+      <ul>
+        <li>How often have you been upset because of something unexpected?</li>
+        <li>How often have you felt unable to control important things in life?</li>
+        <li>How often have you felt nervous and "stressed"?</li>
+        <li>How often have you felt confident about handling personal problems?</li>
+        <li>How often have you felt difficulties piling up beyond control?</li>
+      </ul>
+      <strong>Response Options:</strong>
+      <p>Never | Almost Never | Sometimes | Fairly Often | Very Often</p>
+    </div>
+
+    <div class="subsection">
+      <h2>4. Depression, Anxiety and Stress Scale (DASS-21)</h2>
+      <p>21-item self-report assessing three emotional states: depression, anxiety, stress.</p>
+      <strong>Sample Questions:</strong>
+      <ul>
+        <li>I found it hard to wind down. (Stress)</li>
+        <li>I couldn't seem to experience any positive feeling at all. (Depression)</li>
+        <li>I was worried about situations in which I might panic. (Anxiety)</li>
+        <li>I felt that I was rather touchy. (Stress)</li>
+        <li>I felt down-hearted and blue. (Depression)</li>
+      </ul>
+      <strong>Response Options:</strong>
+      <p>0: Did not apply at all | 1: Somewhat | 2: Considerably | 3: Very much/most of the time</p>
+    </div>
+  </div>
+</body>
+</html>

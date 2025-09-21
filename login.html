@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Noah AI — Login</title>
+  <style>
+    :root {
+      --accent: #27ae60; 
+      --panel-bg: rgba(255, 255, 255, 0.9); 
+      --border: rgba(0, 0, 0, 0.12);
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+
+    
+    .bg-img {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .auth-panel {
+      background: var(--panel-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    }
+
+    h1 {
+      text-align: center;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    .tabs {
+      display: flex;
+      margin-bottom: 16px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .tab {
+      flex: 1;
+      text-align: center;
+      padding: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      background: #f4f4f4;
+      color: #333;
+      transition: 0.2s;
+    }
+    .tab.active {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    label {
+      font-size: 13px;
+      color: #333;
+    }
+
+    input, select {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      outline: none;
+      font-size: 14px;
+    }
+
+    .btn {
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .oauths {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .oauth-btn {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: #f4f4f4;
+      cursor: pointer;
+      text-align: center;
+      transition: 0.2s;
+    }
+    .oauth-btn:hover {
+      background: #e9e9e9;
+    }
+
+    .foot {
+      font-size: 12px;
+      text-align: center;
+      margin-top: 8px;
+      color: #444;
+    }
+
+    .row {
+      display: flex;
+      gap: 8px;
+    }
+    .row .col {
+      flex: 1;
+    }
+  </style>
+</head>
+<body>
+  
+  <img src="images2/back1.jpg" alt="Background" class="bg-img">
+
+  <div class="auth-panel">
+    <h1>Noah AI</h1>
+
+    <div class="tabs">
+      <div class="tab active" data-tab="login">Log In</div>
+      <div class="tab" data-tab="signup">Sign Up</div>
+    </div>
+
+    
+    <div id="login" class="tab-content">
+      <form id="loginForm">
+        <label for="loginMobile">Mobile number</label>
+        <input id="loginMobile" type="tel" required placeholder="+91 98765 43210">
+
+        <label for="loginEmail">Email</label>
+        <input id="loginEmail" type="email" required placeholder="you@example.com">
+
+        <div class="row">
+          <div class="col">
+            <label for="loginName">Full name</label>
+            <input id="loginName" type="text" required placeholder="Your name">
+          </div>
+          <div class="col">
+            <label for="loginGender">Gender</label>
+            <select id="loginGender" required>
+              <option value="">Select</option>
+              <option>Male</option>
+              <option>Female</option>
+              <option>Non-binary</option>
+              <option>Prefer not to say</option>
+            </select>
+          </div>
+        </div>
+
+        <label for="loginBday">Birthdate</label>
+        <input id="loginBday" type="date" required>
+
+        <button type="submit" class="btn btn-primary">Continue</button>
+      </form>
+    </div>
+
+    
+    <div id="signup" class="tab-content" style="display:none">
+      <div class="oauths">
+        <button class="oauth-btn" id="googleBtn">Sign up with Google</button>
+        <button class="oauth-btn" id="githubBtn">Sign up with GitHub</button>
+        <button class="oauth-btn" id="emailSignupBtn">Sign up with Email</button>
+      </div>
+
+      <form id="emailSignupForm" style="display:none;margin-top:10px">
+        <label for="suName">Full name</label>
+        <input id="suName" type="text" required placeholder="Your name">
+        <label for="suEmail">Email</label>
+        <input id="suEmail" type="email" required placeholder="you@example.com">
+        <button type="submit" class="btn btn-primary">Sign up</button>
+      </form>
+
+      <div class="foot">Already have an account? <a href="#" id="toLogin">Log in</a></div>
+    </div>
+  </div>
+
+  <script>
+    
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', e => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        e.target.classList.add('active');
+
+        const target = e.target.dataset.tab;
+        document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
+        document.getElementById(target).style.display = 'block';
+      });
+    });
+
+    
+    function goToIndex() {
+      window.location.href = 'index.html';
+    }
+
+    
+    document.getElementById('loginForm').addEventListener('submit', e => {
+      e.preventDefault(); goToIndex();
+    });
+    document.getElementById('emailSignupForm').addEventListener('submit', e => {
+      e.preventDefault(); goToIndex();
+    });
+    document.getElementById('googleBtn').addEventListener('click', goToIndex);
+    document.getElementById('githubBtn').addEventListener('click', goToIndex);
+    document.getElementById('emailSignupBtn').addEventListener('click', () => {
+      const form = document.getElementById('emailSignupForm');
+      form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    });
+    document.getElementById('toLogin').addEventListener('click', e => {
+      e.preventDefault();
+      document.querySelector('[data-tab="login"]').click();
+    });
+  </script>
+</body>
+</html>
