@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Talk to a Mentor – Noah AI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --green-dark:  #1a4a1e;
+      --green-mid:   #2e7d32;
+      --green-light: #4caf50;
+      --green-pale:  #e8f5e9;
+      --green-bg:    #f0fff4;
+      --accent:      #a5d6a7;
+      --text:        #1a2e1c;
+      --text-mid:    #3d5c40;
+      --text-soft:   #7a9b7c;
+      --white:       #ffffff;
+      --shadow:      0 4px 24px rgba(46,125,50,0.10);
+      --shadow-lg:   0 12px 40px rgba(46,125,50,0.18);
+
+      /* severity colors */
+      --sev-low:    #43a047;
+      --sev-mid:    #fb8c00;
+      --sev-high:   #e53935;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', Arial, sans-serif;
+      background: var(--green-bg);
+      color: var(--text); min-height: 100vh;
+    }
+
+    .bg-blob { position: fixed; border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: 0; animation: blobDrift 14s ease-in-out infinite alternate; }
+    .blob1 { width: 520px; height: 520px; background: rgba(165,214,167,0.35); top: -160px; left: -160px; }
+    .blob2 { width: 380px; height: 380px; background: rgba(76,175,80,0.18); bottom: -80px; right: -100px; animation-delay: -7s; }
+    @keyframes blobDrift { from{transform:translate(0,0) scale(1)} to{transform:translate(20px,15px) scale(1.06)} }
+
+    header {
+      position: sticky; top: 0; z-index: 1000;
+      background: rgba(240,255,244,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(165,214,167,0.4);
+      box-shadow: 0 2px 16px rgba(46,125,50,0.08);
+    }
+    .navbar {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 14px 40px; max-width: 1200px; margin: 0 auto; gap: 12px;
+    }
+    .logo {
+      display: flex; align-items: center; gap: 10px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem; font-weight: 700; color: var(--green-dark);
+      cursor: pointer;
+    }
+    .logo-mark {
+      width: 38px; height: 38px; background: linear-gradient(135deg, var(--green-mid), var(--green-dark));
+      border-radius: 10px; display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; box-shadow: 0 3px 10px rgba(46,125,50,0.3);
+    }
+    .navbar ul { list-style: none; display: flex; gap: 6px; }
+    .navbar ul li a {
+      text-decoration: none; color: var(--text-mid); font-weight: 500; font-size: 0.9rem;
+      padding: 7px 16px; border-radius: 20px; transition: all 0.2s;
+    }
+    .navbar ul li a:hover { background: rgba(46,125,50,0.08); color: var(--green-mid); }
+    .nav-back {
+      padding: 8px 20px; border-radius: 20px; border: 1px solid rgba(46,125,50,0.25);
+      background: transparent; color: var(--green-mid);
+      font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 600;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .nav-back:hover { background: rgba(46,125,50,0.08); }
+
+    /* Crisis bar */
+    .crisis-bar {
+      background: rgba(229,57,53,0.08);
+      border-bottom: 1px solid rgba(229,57,53,0.15);
+      padding: 8px 20px; text-align: center;
+      font-size: 0.75rem; font-weight: 600; color: #c62828;
+      position: relative; z-index: 10;
+    }
+    .crisis-bar a { color: #c62828; font-weight: 700; }
+
+    .page { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 50px 20px 100px; }
+
+    .page-header { text-align: center; margin-bottom: 50px; animation: fadeUp 0.6s ease both; }
+    .page-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 18px; border-radius: 30px;
+      background: rgba(46,125,50,0.08); border: 1px solid rgba(46,125,50,0.2);
+      font-size: 0.75rem; font-weight: 600; color: var(--green-mid);
+      letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 18px;
+    }
+    .page-header h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 5vw, 3.2rem); font-weight: 700;
+      color: var(--green-dark); margin-bottom: 12px;
+    }
+    .page-header h1 em { font-style: italic; color: var(--green-mid); }
+    .page-header p { color: var(--text-soft); font-size: 0.95rem; max-width: 520px; margin: 0 auto; line-height: 1.6; }
+
+    /* ── Step 1: Severity Assessment ── */
+    .step { animation: fadeUp 0.6s ease both; }
+    .step + .step { margin-top: 32px; }
+
+    .step-label {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--text-soft); margin-bottom: 14px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .step-label span {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: var(--green-mid); color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.7rem; font-weight: 700;
+    }
+
+    .severity-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+
+    .sev-card {
+      background: white; border-radius: 18px; padding: 24px 20px;
+      border: 2px solid transparent;
+      box-shadow: var(--shadow); cursor: pointer;
+      transition: all 0.25s; text-align: center;
+    }
+
+    .sev-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+
+    .sev-card.selected-low  { border-color: var(--sev-low);  background: #f1fff2; }
+    .sev-card.selected-mid  { border-color: var(--sev-mid);  background: #fff8f0; }
+    .sev-card.selected-high { border-color: var(--sev-high); background: #fff5f5; }
+
+    .sev-icon { font-size: 2.2rem; margin-bottom: 12px; display: block; }
+    .sev-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; }
+    .sev-card p  { font-size: 0.8rem; color: var(--text-soft); line-height: 1.5; }
+
+    .sev-card.low  h3 { color: var(--sev-low);  }
+    .sev-card.mid  h3 { color: var(--sev-mid);  }
+    .sev-card.high h3 { color: var(--sev-high); }
+
+    .sev-tags { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; margin-top: 10px; }
+    .sev-tag {
+      font-size: 0.68rem; padding: 3px 9px; border-radius: 10px; font-weight: 500;
+    }
+    .low  .sev-tag { background: #e8f5e9; color: var(--sev-low); }
+    .mid  .sev-tag { background: #fff3e0; color: var(--sev-mid); }
+    .high .sev-tag { background: #ffebee; color: var(--sev-high); }
+
+    /* ── Step 2: Mentor cards ── */
+    .mentors-section {
+      display: none; animation: fadeUp 0.5s ease both;
+    }
+    .mentors-section.visible { display: block; }
+
+    .mentors-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 20px; flex-wrap: wrap; gap: 10px;
+    }
+    .mentors-header h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem; font-weight: 700; color: var(--green-dark);
+    }
+    .severity-badge {
+      padding: 5px 14px; border-radius: 20px;
+      font-size: 0.75rem; font-weight: 700;
+    }
+    .badge-low  { background: #e8f5e9; color: var(--sev-low); }
+    .badge-mid  { background: #fff3e0; color: var(--sev-mid); }
+    .badge-high { background: #ffebee; color: var(--sev-high); }
+
+    .mentor-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap: 20px; }
+
+    .mentor-card {
+      background: white; border-radius: 20px; overflow: hidden;
+      border: 1px solid rgba(165,214,167,0.35);
+      box-shadow: var(--shadow); transition: all 0.25s;
+    }
+    .mentor-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+
+    .mentor-banner {
+      height: 6px;
+    }
+    .banner-low  { background: linear-gradient(90deg, var(--sev-low), #a5d6a7); }
+    .banner-mid  { background: linear-gradient(90deg, var(--sev-mid), #ffcc80); }
+    .banner-high { background: linear-gradient(90deg, var(--sev-high), #ef9a9a); }
+
+    .mentor-body { padding: 22px; }
+
+    .mentor-top {
+      display: flex; align-items: center; gap: 14px; margin-bottom: 16px;
+    }
+    .mentor-avatar {
+      width: 52px; height: 52px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; flex-shrink: 0;
+    }
+    .mentor-info h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 700; color: var(--green-dark); }
+    .mentor-info p { font-size: 0.78rem; color: var(--text-soft); margin-top: 2px; }
+
+    .mentor-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 14px; }
+    .mentor-tag {
+      font-size: 0.7rem; padding: 3px 10px; border-radius: 10px;
+      background: var(--green-pale); color: var(--green-mid); font-weight: 500;
+    }
+
+    .mentor-avail {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 0.75rem; color: var(--text-soft); margin-bottom: 16px;
+    }
+    .avail-dot { width: 7px; height: 7px; border-radius: 50%; background: #66bb6a; animation: blink 2s infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    .book-btn {
+      width: 100%; padding: 11px; border-radius: 14px; border: none;
+      background: linear-gradient(135deg, var(--green-mid), var(--green-dark));
+      color: white; font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem; font-weight: 600; cursor: pointer;
+      transition: all 0.2s; box-shadow: 0 4px 12px rgba(46,125,50,0.3);
+    }
+    .book-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(46,125,50,0.4); }
+
+    /* High severity emergency box */
+    .emergency-box {
+      background: linear-gradient(135deg, #fff5f5, #ffebee);
+      border: 2px solid rgba(229,57,53,0.25);
+      border-radius: 18px; padding: 24px 28px;
+      margin-bottom: 24px; display: none;
+    }
+    .emergency-box.visible { display: block; animation: fadeUp 0.5s ease both; }
+    .emergency-box h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem; color: #c62828; margin-bottom: 10px;
+    }
+    .emergency-box p { font-size: 0.88rem; color: #6d3030; line-height: 1.6; margin-bottom: 14px; }
+    .emergency-links { display: flex; gap: 10px; flex-wrap: wrap; }
+    .emergency-link {
+      padding: 9px 20px; border-radius: 20px; border: none;
+      font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 700;
+      cursor: pointer; transition: all 0.2s; text-decoration: none;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .emergency-link.red { background: #e53935; color: white; box-shadow: 0 4px 12px rgba(229,57,53,0.35); }
+    .emergency-link.red:hover { background: #c62828; transform: translateY(-2px); }
+    .emergency-link.outline { background: transparent; color: #c62828; border: 1.5px solid #e53935; }
+    .emergency-link.outline:hover { background: #ffebee; }
+
+    /* booking modal */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(15,30,18,0.6);
+      backdrop-filter: blur(6px); z-index: 9000;
+      display: none; align-items: center; justify-content: center; padding: 20px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: white; border-radius: 24px;
+      max-width: 480px; width: 100%;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+      animation: fadeUp 0.4s ease both; overflow: hidden;
+    }
+    .modal-header {
+      background: linear-gradient(135deg, var(--green-mid), var(--green-dark));
+      padding: 22px 28px; color: white;
+    }
+    .modal-header h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 700; }
+    .modal-header p { font-size: 0.8rem; opacity: 0.8; margin-top: 4px; }
+    .modal-body { padding: 26px 28px; }
+    .form-group { margin-bottom: 18px; }
+    .form-group label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-mid); margin-bottom: 7px; }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%; padding: 11px 14px; border-radius: 12px;
+      border: 1.5px solid rgba(165,214,167,0.5); outline: none;
+      font-family: 'DM Sans', sans-serif; font-size: 0.88rem; color: var(--text);
+      background: var(--green-bg); transition: border-color 0.2s;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      border-color: var(--green-mid);
+    }
+    .form-group textarea { min-height: 80px; resize: vertical; }
+    .modal-footer { display: flex; gap: 10px; padding: 0 28px 26px; }
+    .modal-cancel {
+      flex: 1; padding: 11px; border-radius: 12px;
+      border: 1.5px solid rgba(46,125,50,0.2); background: transparent;
+      color: var(--text-mid); font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem; font-weight: 600; cursor: pointer; transition: all 0.2s;
+    }
+    .modal-cancel:hover { background: var(--green-pale); }
+    .modal-submit {
+      flex: 2; padding: 11px; border-radius: 12px; border: none;
+      background: linear-gradient(135deg, var(--green-mid), var(--green-dark));
+      color: white; font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem; font-weight: 600; cursor: pointer;
+      box-shadow: 0 4px 14px rgba(46,125,50,0.35); transition: all 0.2s;
+    }
+    .modal-submit:hover { transform: translateY(-1px); }
+
+    /* confirm screen */
+    .confirm-screen {
+      display: none; text-align: center; padding: 40px 28px;
+    }
+    .confirm-screen.visible { display: block; animation: fadeUp 0.4s ease both; }
+    .confirm-icon { font-size: 3rem; margin-bottom: 16px; }
+    .confirm-screen h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; color: var(--green-dark); margin-bottom: 10px; }
+    .confirm-screen p { color: var(--text-soft); font-size: 0.9rem; line-height: 1.6; }
+    .confirm-close {
+      margin-top: 24px; padding: 11px 30px; border-radius: 20px; border: none;
+      background: linear-gradient(135deg, var(--green-mid), var(--green-dark));
+      color: white; font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem; font-weight: 600; cursor: pointer;
+    }
+
+    @keyframes fadeUp { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:translateY(0)} }
+
+    @media (max-width: 640px) {
+      .severity-grid { grid-template-columns: 1fr; }
+      .navbar { padding: 12px 16px; }
+      .page { padding: 30px 14px 80px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-blob blob1"></div>
+  <div class="bg-blob blob2"></div>
+
+  <header>
+    <nav class="navbar">
+      <div class="logo" onclick="window.location.href='index.html'">
+        <div class="logo-mark">🧩</div>
+        <span>Noah AI</span>
+      </div>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="Chatbot(Main)/chatbot.html">Chat</a></li>
+        <li><a href="journal.html">Journal</a></li>
+      </ul>
+      <button class="nav-back" onclick="window.location.href='index.html'">← Back</button>
+    </nav>
+  </header>
+
+  <div class="crisis-bar">
+    🆘 In immediate crisis? Call or text <a href="tel:14416">14416</a> — Suicide & Crisis Lifeline · Available 24/7
+  </div>
+
+  <div class="page">
+
+    <!-- Page header -->
+    <div class="page-header">
+      <div class="page-tag">🧑‍⚕️ Real Human Support</div>
+      <h1>Talk to a <em>Mentor</em></h1>
+      <p>Connect with a trained wellness mentor. Tell us how you're feeling and we'll match you with the right support.</p>
+    </div>
+
+    <!-- Step 1: Severity -->
+    <div class="step" style="animation-delay:0.1s">
+      <div class="step-label"><span>1</span> How would you describe what you're going through?</div>
+      <div class="severity-grid">
+
+        <div class="sev-card low" onclick="selectSeverity('low', this)">
+          <span class="sev-icon">🌿</span>
+          <h3>Mild</h3>
+          <p>Feeling a bit off, stressed, or just need someone to talk to.</p>
+          <div class="sev-tags">
+            <span class="sev-tag">Stress</span>
+            <span class="sev-tag">Worry</span>
+            <span class="sev-tag">Overthinking</span>
+            <span class="sev-tag">Sleep issues</span>
+          </div>
+        </div>
+
+        <div class="sev-card mid" onclick="selectSeverity('mid', this)">
+          <span class="sev-icon">🌊</span>
+          <h3>Moderate</h3>
+          <p>Consistently struggling — anxiety, low mood, or feeling stuck.</p>
+          <div class="sev-tags">
+            <span class="sev-tag">Anxiety</span>
+            <span class="sev-tag">Depression</span>
+            <span class="sev-tag">Isolation</span>
+            <span class="sev-tag">Burnout</span>
+          </div>
+        </div>
+
+        <div class="sev-card high" onclick="selectSeverity('high', this)">
+          <span class="sev-icon">🆘</span>
+          <h3>Severe</h3>
+          <p>In crisis, feeling unsafe, or having thoughts of self-harm.</p>
+          <div class="sev-tags">
+            <span class="sev-tag">Crisis</span>
+            <span class="sev-tag">Self-harm</span>
+            <span class="sev-tag">Suicidal thoughts</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Emergency box (shown for high severity) -->
+    <div class="emergency-box" id="emergency-box">
+      <h3>⚠️ Your safety is the priority right now</h3>
+      <p>If you're in immediate danger or having thoughts of harming yourself, please reach out to a crisis line immediately. They are trained, confidential, and available 24/7. Our mentors below are also trained for crisis support.</p>
+      <div class="emergency-links">
+        <a href="tel:14416" class="emergency-link red">📞 Call 14416 Now</a>
+        <a href="sms:14416" class="emergency-link outline">💬 Text 14416</a>
+        <a href="https://www.crisistextline.org" target="_blank" class="emergency-link outline">🌐 Crisis Text Line</a>
+      </div>
+    </div>
+
+    <!-- Step 2: Mentor cards -->
+    <div class="mentors-section" id="mentors-section">
+      <div class="step-label" style="margin-bottom:16px"><span>2</span> Choose a mentor</div>
+      <div class="mentors-header">
+        <h2 id="mentors-title">Available Mentors</h2>
+        <span class="severity-badge" id="severity-badge"></span>
+      </div>
+      <div class="mentor-cards" id="mentor-cards"></div>
+    </div>
+
+  </div>
+
+  <!-- Booking Modal -->
+  <div class="modal-overlay" id="modal">
+    <div class="modal">
+      <div id="modal-booking">
+        <div class="modal-header">
+          <h3 id="modal-mentor-name">Book a Session</h3>
+          <p id="modal-mentor-role">Wellness Mentor</p>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Your Name</label>
+            <input type="text" id="f-name" placeholder="Enter your name" />
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="f-email" placeholder="your@email.com" />
+          </div>
+          <div class="form-group">
+            <label>Preferred Date & Time</label>
+            <input type="datetime-local" id="f-datetime" />
+          </div>
+          <div class="form-group">
+            <label>What would you like to talk about? <span style="color:#aaa;font-weight:400">(optional)</span></label>
+            <textarea id="f-note" placeholder="Briefly describe what's on your mind…"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="modal-cancel" onclick="closeModal()">Cancel</button>
+          <button class="modal-submit" onclick="submitBooking()">✓ Confirm Booking</button>
+        </div>
+      </div>
+      <div class="confirm-screen" id="confirm-screen">
+        <div class="confirm-icon">✅</div>
+        <h3>You're all set!</h3>
+        <p>Your session with <strong id="confirm-name"></strong> has been requested. You'll receive a confirmation at your email shortly.<br><br>You've taken a brave step. 💚</p>
+        <button class="confirm-close" onclick="closeModal()">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const mentorData = {
+      low: [
+        { name: 'Priya Sharma', role: 'Stress & Mindfulness Coach', emoji: '🌸', avail: 'Available today', tags: ['Stress Relief','Mindfulness','Work-Life Balance','Sleep'] },
+        { name: 'Arjun Mehta',  role: 'Youth Wellness Guide',       emoji: '🌱', avail: 'Available tomorrow', tags: ['Motivation','Study Stress','Social Anxiety','Growth'] },
+        { name: 'Sunita Rao',   role: 'Relaxation Therapist',       emoji: '🍃', avail: 'Available today', tags: ['Breathing','Relaxation','Overthinking','Focus'] },
+      ],
+      mid: [
+        { name: 'Dr. Kavya Nair', role: 'Clinical Psychologist',      emoji: '🧠', avail: 'Available today', tags: ['Anxiety','Depression','CBT','Emotional Regulation'] },
+        { name: 'Rohit Verma',    role: 'Mental Health Counselor',    emoji: '💙', avail: 'Available in 2 hrs', tags: ['Burnout','Isolation','Grief','Self-esteem'] },
+        { name: 'Ananya Das',     role: 'Trauma-Informed Therapist',  emoji: '🌊', avail: 'Available tomorrow', tags: ['Trauma','PTSD','Mood Disorders','Self-care'] },
+      ],
+      high: [
+        { name: 'Dr. Suresh Kumar',  role: 'Crisis Intervention Specialist', emoji: '🛡️', avail: 'Available NOW', tags: ['Crisis Support','Safety Planning','Suicide Prevention','Immediate Help'] },
+        { name: 'Meera Pillai',      role: 'Emergency Mental Health Worker', emoji: '🚨', avail: 'Available NOW', tags: ['Immediate Crisis','Self-harm','Safety','Hotline Support'] },
+        { name: 'Dr. Rajesh Pandey', role: 'Psychiatrist & Crisis Counselor', emoji: '⚕️', avail: 'Available NOW', tags: ['Psychiatric Support','Medication','Crisis','Long-term Care'] },
+      ]
+    };
+
+    const bannerClass = { low: 'banner-low', mid: 'banner-mid', high: 'banner-high' };
+    const badgeClass  = { low: 'badge-low',  mid: 'badge-mid',  high: 'badge-high'  };
+    const badgeText   = { low: '🟢 Mild Severity', mid: '🟡 Moderate Severity', high: '🔴 High Severity' };
+    const titleText   = { low: 'Mentors for Everyday Support', mid: 'Counselors for Deeper Support', high: 'Crisis-Trained Specialists' };
+
+    let currentMentor = '';
+
+    function selectSeverity(level, el) {
+      document.querySelectorAll('.sev-card').forEach(c => c.className = c.className.replace(/selected-\w+/g,'').trim());
+      el.classList.add('selected-' + level);
+
+      // emergency box
+      document.getElementById('emergency-box').classList.toggle('visible', level === 'high');
+
+      // render mentors
+      const section = document.getElementById('mentors-section');
+      section.classList.add('visible');
+      document.getElementById('mentors-title').textContent = titleText[level];
+      const badge = document.getElementById('severity-badge');
+      badge.textContent = badgeText[level];
+      badge.className = 'severity-badge ' + badgeClass[level];
+
+      const cards = document.getElementById('mentor-cards');
+      cards.innerHTML = mentorData[level].map(m => `
+        <div class="mentor-card">
+          <div class="mentor-banner ${bannerClass[level]}"></div>
+          <div class="mentor-body">
+            <div class="mentor-top">
+              <div class="mentor-avatar" style="background:${level==='low'?'#e8f5e9':level==='mid'?'#e3f2fd':'#ffebee'}">${m.emoji}</div>
+              <div class="mentor-info">
+                <h3>${m.name}</h3>
+                <p>${m.role}</p>
+              </div>
+            </div>
+            <div class="mentor-tags">${m.tags.map(t=>`<span class="mentor-tag">${t}</span>`).join('')}</div>
+            <div class="mentor-avail"><span class="avail-dot"></span>${m.avail}</div>
+            <button class="book-btn" onclick="openModal('${m.name}','${m.role}')">Book a Session</button>
+          </div>
+        </div>
+      `).join('');
+
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function openModal(name, role) {
+      currentMentor = name;
+      document.getElementById('modal-mentor-name').textContent = 'Book with ' + name;
+      document.getElementById('modal-mentor-role').textContent = role;
+      document.getElementById('modal-booking').style.display = 'block';
+      document.getElementById('confirm-screen').classList.remove('visible');
+      document.getElementById('modal').classList.add('open');
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.remove('open');
+    }
+
+    function submitBooking() {
+      const name = document.getElementById('f-name').value.trim();
+      const email = document.getElementById('f-email').value.trim();
+      const dt = document.getElementById('f-datetime').value;
+      if (!name || !email || !dt) {
+        alert('Please fill in your name, email and preferred time.'); return;
+      }
+      document.getElementById('modal-booking').style.display = 'none';
+      document.getElementById('confirm-name').textContent = currentMentor;
+      document.getElementById('confirm-screen').classList.add('visible');
+    }
+
+    // close modal on overlay click
+    document.getElementById('modal').addEventListener('click', function(e) {
+      if (e.target === this) closeModal();
+    });
+  </script>
+</body>
+</html>

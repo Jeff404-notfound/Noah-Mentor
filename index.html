@@ -3,268 +3,249 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Noah AI</title>
+  <title>Noah AI – Mental Wellness</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f0fff4;
-      color: #333;
-    }
-
-    header {
-      background: #a5d6a7;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-
-    .navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 30px;
-      flex-wrap: wrap;
-    }
-
-    .navbar .logo {
-      font-weight: bold;
-      font-size: 1.4rem;
-      color: #2e7d32;
-    }
-
-    .navbar ul {
-      list-style: none;
-      display: flex;
-      gap: 20px;
-      margin: 0;
-      padding: 0;
-    }
-
-    .navbar ul li a {
-      text-decoration: none;
-      color: #1b5e20;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: color 0.3s ease;
-    }
-
-    .navbar ul li a:hover {
-      color: #004d40;
-    }
-
-    .hero {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 60px 20px;
-      text-align: center;
-      animation: fadeIn 2s ease-in;
-    }
-
-    .hero h1 {
-      font-size: 2.5rem;
-      color: #2e7d32;
-      margin-bottom: 15px;
-    }
-
-    .hero p {
-      max-width: 650px;
-      font-size: 1.1rem;
-      margin-bottom: 25px;
-      line-height: 1.5;
-    }
-
-    .cta-btn {
-      background: #2e7d32;
-      color: white;
-      padding: 12px 25px;
-      border: none;
-      border-radius: 25px;
-      cursor: pointer;
-      font-size: 1rem;
-      transition: transform 0.2s ease, background 0.3s ease;
-    }
-
-    .cta-btn:hover {
-      transform: scale(1.05);
-      background: #1b5e20;
-    }
-
-    .pulse-btn {
-      background: #4fc3f7; /* light blue */
-      color: #fff;
-      padding: 12px 25px;
-      border: none;
-      border-radius: 25px;
-      cursor: pointer;
-      font-size: 1rem;
-      transition: transform 0.2s ease, background 0.3s ease;
-    }
-
-    .pulse-btn:hover {
-      transform: scale(1.05);
-      background: #0288d1; /* darker blue on hover */
-    }
-
-    .features {
-      padding: 60px 20px;
-      text-align: center;
-    }
-
-    .features h2 {
-      font-size: 2rem;
-      color: #1b5e20;
-      margin-bottom: 40px;
-    }
-
-    .feature-cards {
-      display: flex;
-      justify-content: center;
-      gap: 25px;
-      flex-wrap: wrap;
-    }
-
-    .card {
-      background: #fff;
-      padding: 25px;
-      border-radius: 15px;
-      width: 260px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-      text-align: center;
-      animation: slideUp 1s ease;
-      transition: transform 0.2s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-    }
-
-    .card img {
-      width: 60px;
-      margin-bottom: 15px;
-    }
-
-    .card h3 {
-      margin-bottom: 10px;
-      color: #2e7d32;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(50px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    #loading-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(255,255,255,0.9);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      gap: 15px;
-      font-size: 1.5rem;
-      color: #2e7d32;
-      z-index: 9999;
-    }
-
-    .spinner {
-      width: 50px;
-      height: 50px;
-      border: 5px solid #c8e6c9;
-      border-top: 5px solid #2e7d32;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-    }
-
-    @keyframes spin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-  </style>
 </head>
 <body>
+
+  <div class="bg-blob blob1"></div>
+  <div class="bg-blob blob2"></div>
+  <div class="bg-blob blob3"></div>
+
   <header>
     <nav class="navbar">
-      <div class="logo">🧩 Noah AI</div>
+      <div class="logo">
+        <div class="logo-mark">🧩</div>
+        <span>Noah AI</span>
+      </div>
       <ul>
         <li><a href="howitworks.html">How It Works</a></li>
         <li><a href="features.html">Features</a></li>
-        <li><a href="counselors.html">Counselors</a></li>
+        <li><a href="Counselors1.html">Counselors</a></li>
       </ul>
+      <button class="nav-cta" onclick="goTo('Chatbot(Main)/chatbot.html')">Talk to Noah →</button>
     </nav>
   </header>
 
   <section class="hero">
-    <h1>Talk. Resolve. Heal.</h1>
+    <div class="hero-tag">
+      <span class="pulse-dot"></span> AI-Powered Wellness
+    </div>
+    <h1>Talk. Resolve.<br><em>Heal.</em></h1>
     <p>
-      We provide youth with an AI-powered chatbot, mood tracking, and a private journal — 
+      We provide youth with an AI-powered chatbot, mood tracking, and a private journal —
       simple tools to support your mental wellness journey.
     </p>
-    <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
-      <button id="get-started-btn" class="cta-btn">Get Started</button>
+    <div class="hero-btns">
+      <button id="get-started-btn" class="cta-btn">
+        <span>Get Started</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
       <button id="mind-pulse-btn" class="pulse-btn">Mind Pulse</button>
+    </div>
+    <div class="stats-strip">
+      <div class="stat"><strong>24/7</strong><span>Available</span></div>
+      <div class="stat-divider"></div>
+      <div class="stat"><strong>100%</strong><span>Private</span></div>
+      <div class="stat-divider"></div>
+      <div class="stat"><strong>Free</strong><span>To Use</span></div>
     </div>
   </section>
 
   <section class="features">
-    <h2>What We Provide</h2>
+    <div class="features-header">
+      <h2>What We Provide</h2>
+      <p>Everything you need to support your mental wellness journey</p>
+    </div>
     <div class="feature-cards">
-      <div class="card">
-        <img src="icons/chatbot-placeholder.jpg" alt="AI Chatbot Icon">
-        <h3>AI Chatbot</h3>
-        <p>Instant, empathetic conversations for support anytime, anywhere.</p>
+
+      <div class="card" onclick="goTo('Chatbot(Main)/chatbot.html')">
+        <div class="card-icon-wrap">
+          <img src="icons/chatbot-placeholder.jpg" alt="AI Chatbot">
+        </div>
+        <div class="card-body">
+          <h3>AI Chatbot</h3>
+          <p>Instant, empathetic conversations for support anytime, anywhere.</p>
+        </div>
+        <div class="card-arrow">→</div>
       </div>
-      <div class="card">
-        <img src="icons/mood-icon.png" alt="Mood Tracker Icon">
-        <h3>Mood Tracker</h3>
-        <p>Track and visualize your emotional patterns over time.</p>
+
+      <div class="card card-accent" onclick="goTo('moodtracker.html')">
+        <div class="card-icon-wrap">
+          <img src="icons/mood-icon.png" alt="Mood Tracker">
+        </div>
+        <div class="card-body">
+          <h3>Mood Tracker</h3>
+          <p>Track and visualize your emotional patterns over time.</p>
+        </div>
+        <div class="card-arrow">→</div>
       </div>
-      <div class="card">
-        <img src="icons/journal-icon.png" alt="Wellness Journal Icon">
-        <h3>Wellness Journal</h3>
-        <p>Write, reflect, and grow with a private, secure journal space.</p>
+
+      <div class="card" onclick="goTo('journal.html')">
+        <div class="card-icon-wrap">
+          <img src="icons/journal-icon.png" alt="Wellness Journal">
+        </div>
+        <div class="card-body">
+          <h3>Wellness Journal</h3>
+          <p>Write, reflect, and grow with a private, secure journal space.</p>
+        </div>
+        <div class="card-arrow">→</div>
       </div>
+
+    </div>
+  </section>
+
+  <section class="quote-banner">
+    <div class="quote-inner">
+      <span class="quote-mark">"</span>
+      <p id="rotating-quote">You don't have to have it all figured out to move forward.</p>
     </div>
   </section>
 
   <div id="loading-overlay">
     <div class="spinner"></div>
-    <div>Loading Noah Mentor...</div>
+    <div class="loading-text" id="loading-fact"></div>
+  </div>
+
+  <button class="float-btn" id="float-btn" onclick="toggleMini()">
+    <span id="float-icon">💬</span>
+  </button>
+
+  <div class="mini-chat" id="mini-chat">
+    <div class="mini-header">
+      <div class="mini-header-icon">🌿</div>
+      <div class="mini-header-info">
+        <h4>Noah Mentor</h4>
+        <p>Wellness Companion · Online</p>
+      </div>
+      <button class="mini-open-btn" onclick="goTo('Chatbot(Main)/chatbot.html')">Open Full ↗</button>
+    </div>
+    <div class="mini-messages" id="mini-messages">
+      <div class="mini-msg bot">Hi! 👋 I'm Noah. How are you feeling right now?</div>
+    </div>
+    <div class="mini-input-row">
+      <input id="mini-input" type="text" placeholder="Type a message…" autocomplete="off" />
+      <button class="mini-send" onclick="miniSend()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+        </svg>
+      </button>
+    </div>
   </div>
 
   <script>
-    const btn = document.getElementById("get-started-btn");
-    const pulseBtn = document.getElementById("mind-pulse-btn");
-    const overlay = document.getElementById("loading-overlay");
+    // ── Loading facts ──
+    const facts = [
+      "💚 1 in 4 people will experience a mental health issue at some point in their life.",
+      "🧠 Exercise for just 30 minutes can improve mood for up to 12 hours.",
+      "😴 Poor sleep and mental health are deeply connected — rest is healing.",
+      "🌿 Talking about your feelings can reduce stress by up to 40%.",
+      "💬 Seeking help is a sign of strength, not weakness.",
+      "🌞 Sunlight boosts serotonin — even 10 minutes outside helps.",
+      "🫁 Deep breathing activates your body's natural calm response.",
+      "🤝 Human connection is one of the strongest protectors of mental health.",
+      "📓 Journaling for 15 minutes a day can reduce anxiety significantly.",
+      "💙 It's okay to not be okay — what matters is reaching out.",
+      "🌱 Recovery is not linear. Every small step forward counts.",
+      "🎵 Music can reduce anxiety by up to 65% — press play!",
+    ];
+    document.getElementById('loading-fact').textContent = facts[Math.floor(Math.random() * facts.length)];
 
-    btn.addEventListener("click", () => {
-      overlay.style.display = "flex";
+    // ── Navigation ──
+    const overlay = document.getElementById('loading-overlay');
+    function goTo(url) {
+      overlay.style.display = 'flex';
+      setTimeout(() => { window.location.href = url; }, 1400);
+    }
+
+    document.getElementById('get-started-btn').addEventListener('click', () => goTo('Counselors1.html'));
+    document.getElementById('mind-pulse-btn').addEventListener('click', () => goTo('moodtracker.html'));
+
+    // ── Rotating quotes ──
+    const quotes = [
+      "You don't have to have it all figured out to move forward.",
+      "Healing is not linear — and that's okay.",
+      "Every small step is still a step.",
+      "It's okay to rest. It doesn't mean you've given up.",
+      "Your feelings are valid, always.",
+      "Courage doesn't always roar. Sometimes it whispers 'try again tomorrow'."
+    ];
+    let qi = 0;
+    const qEl = document.getElementById('rotating-quote');
+    qEl.style.transition = 'opacity 0.5s ease';
+    setInterval(() => {
+      qEl.style.opacity = 0;
       setTimeout(() => {
-        window.location.href = "chatbot.html";
-      }, 1500);
+        qi = (qi + 1) % quotes.length;
+        qEl.textContent = quotes[qi];
+        qEl.style.opacity = 1;
+      }, 500);
+    }, 5000);
+
+    // ── Mini chat toggle ──
+    let miniOpen = false;
+    function toggleMini() {
+      miniOpen = !miniOpen;
+      document.getElementById('mini-chat').classList.toggle('open', miniOpen);
+      document.getElementById('float-icon').textContent = miniOpen ? '✕' : '💬';
+      if (miniOpen) document.getElementById('mini-input').focus();
+    }
+
+    document.addEventListener('click', e => {
+      const btn  = document.getElementById('float-btn');
+      const chat = document.getElementById('mini-chat');
+      if (miniOpen && !chat.contains(e.target) && !btn.contains(e.target)) {
+        miniOpen = false;
+        chat.classList.remove('open');
+        document.getElementById('float-icon').textContent = '💬';
+      }
     });
 
-    pulseBtn.addEventListener("click", () => {
-      overlay.style.display = "flex";
-      setTimeout(() => {
-        window.location.href = "moodtracker.html";
-      }, 1500);
+    document.getElementById('mini-input').addEventListener('keypress', e => {
+      if (e.key === 'Enter') miniSend();
     });
+
+    async function miniSend() {
+      const input = document.getElementById('mini-input');
+      const box   = document.getElementById('mini-messages');
+      const text  = input.value.trim();
+      if (!text) return;
+
+      const u = document.createElement('div');
+      u.className = 'mini-msg user';
+      u.textContent = text;
+      box.appendChild(u);
+      input.value = '';
+      box.scrollTop = box.scrollHeight;
+
+      const typing = document.createElement('div');
+      typing.className = 'mini-typing';
+      typing.innerHTML = '<span class="mini-dot"></span><span class="mini-dot"></span><span class="mini-dot"></span>';
+      box.appendChild(typing);
+      box.scrollTop = box.scrollHeight;
+
+      try {
+        const res  = await fetch('http://localhost:3000/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: text })
+        });
+        const data = await res.json();
+        typing.remove();
+        const b = document.createElement('div');
+        b.className = 'mini-msg bot';
+        b.textContent = data.reply;
+        box.appendChild(b);
+      } catch {
+        typing.remove();
+        const b = document.createElement('div');
+        b.className = 'mini-msg bot';
+        b.textContent = "Can't connect right now. Try the full chat! 💚";
+        box.appendChild(b);
+      }
+      box.scrollTop = box.scrollHeight;
+    }
   </script>
 </body>
 </html>

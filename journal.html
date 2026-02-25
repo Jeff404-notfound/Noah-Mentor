@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wellness Journal – Noah AI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --green-dark:  #1a4a1e;
+      --green-mid:   #2e7d32;
+      --green-light: #4caf50;
+      --green-pale:  #e8f5e9;
+      --green-bg:    #f0fff4;
+      --accent:      #a5d6a7;
+      --gold:        #c9a84c;
+      --text:        #1a2e1c;
+      --text-mid:    #3d5c40;
+      --text-soft:   #7a9b7c;
+      --white:       #ffffff;
+      --shadow:      0 4px 24px rgba(46,125,50,0.10);
+      --shadow-lg:   0 12px 40px rgba(46,125,50,0.18);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', Arial, sans-serif;
+      background: var(--green-bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* blobs */
+    .bg-blob { position: fixed; border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: 0; animation: blobDrift 14s ease-in-out infinite alternate; }
+    .blob1 { width: 520px; height: 520px; background: rgba(165,214,167,0.35); top: -160px; left: -160px; }
+    .blob2 { width: 380px; height: 380px; background: rgba(76,175,80,0.18); bottom: -80px; right: -100px; animation-delay: -7s; }
+    @keyframes blobDrift { from{transform:translate(0,0) scale(1)} to{transform:translate(20px,15px) scale(1.06)} }
+
+    /* navbar */
+    header {
+      position: sticky; top: 0; z-index: 1000;
+      background: rgba(240,255,244,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(165,214,167,0.4);
+      box-shadow: 0 2px 16px rgba(46,125,50,0.08);
+    }
+    .navbar {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 14px 40px; max-width: 1200px; margin: 0 auto; gap: 12px;
+    }
+    .logo {
+      display: flex; align-items: center; gap: 10px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem; font-weight: 700; color: var(--green-dark);
+      text-decoration: none; cursor: pointer;
+    }
+    .logo-mark {
+      width: 38px; height: 38px; background: linear-gradient(135deg, var(--green-mid), var(--green-dark));
+      border-radius: 10px; display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; box-shadow: 0 3px 10px rgba(46,125,50,0.3);
+    }
+    .navbar ul { list-style: none; display: flex; gap: 6px; }
+    .navbar ul li a {
+      text-decoration: none; color: var(--text-mid); font-weight: 500; font-size: 0.9rem;
+      padding: 7px 16px; border-radius: 20px; transition: all 0.2s;
+    }
+    .navbar ul li a:hover { background: rgba(46,125,50,0.08); color: var(--green-mid); }
+    .nav-back {
+      padding: 8px 20px; border-radius: 20px; border: 1px solid rgba(46,125,50,0.25);
+      background: transparent; color: var(--green-mid);
+      font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 600;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .nav-back:hover { background: rgba(46,125,50,0.08); }
+
+    /* page layout */
+    .page {
+      position: relative; z-index: 1;
+      max-width: 860px; margin: 0 auto;
+      padding: 50px 20px 100px;
+    }
+
+    .page-header { text-align: center; margin-bottom: 44px; animation: fadeUp 0.6s ease both; }
+    .page-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 18px; border-radius: 30px;
+      background: rgba(46,125,50,0.08); border: 1px solid rgba(46,125,50,0.2);
+      font-size: 0.75rem; font-weight: 600; color: var(--green-mid);
+      letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 18px;
+    }
+    .page-header h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 5vw, 3.2rem); font-weight: 700;
+      color: var(--green-dark); margin-bottom: 10px;
+    }
+    .page-header h1 em { font-style: italic; color: var(--green-mid); }
+    .page-header p { color: var(--text-soft); font-size: 0.95rem; }
+
+    /* mood selector */
+    .mood-bar {
+      background: white; border-radius: 18px; padding: 22px 26px;
+      border: 1px solid rgba(165,214,167,0.4); box-shadow: var(--shadow);
+      margin-bottom: 22px; animation: fadeUp 0.6s ease 0.1s both;
+    }
+    .mood-bar h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem; color: var(--green-dark); margin-bottom: 14px;
+    }
+    .mood-options {
+      display: flex; gap: 10px; flex-wrap: wrap;
+    }
+    .mood-chip {
+      padding: 8px 18px; border-radius: 30px;
+      border: 1.5px solid rgba(165,214,167,0.5);
+      background: var(--green-pale); font-size: 0.85rem;
+      font-family: 'DM Sans', sans-serif; color: var(--text-mid);
+      cursor: pointer; transition: all 0.2s;
+    }
+    .mood-chip:hover, .mood-chip.active {
+      background: var(--green-mid); color: white;
+      border-color: var(--green-mid);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(46,125,50,0.3);
+    }
+
+    /* write area */
+    .write-card {
+      background: white; border-radius: 20px;
+      border: 1px solid rgba(165,214,167,0.4); box-shadow: var(--shadow);
+      overflow: hidden; margin-bottom: 22px;
+      animation: fadeUp 0.6s ease 0.2s both;
+    }
+
+    .write-toolbar {
+      display: flex; align-items: center; gap: 8px;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--green-pale);
+      background: rgba(232,245,233,0.4);
+      flex-wrap: wrap;
+    }
+
+    .tool-btn {
+      padding: 5px 12px; border-radius: 8px; border: none;
+      background: transparent; font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem; font-weight: 600; color: var(--text-mid);
+      cursor: pointer; transition: all 0.15s;
+    }
+    .tool-btn:hover { background: var(--green-pale); color: var(--green-dark); }
+
+    .toolbar-sep { width: 1px; height: 20px; background: rgba(165,214,167,0.5); margin: 0 4px; }
+
+    .date-stamp {
+      margin-left: auto; font-size: 0.75rem; color: var(--text-soft);
+      font-style: italic;
+    }
+
+    .write-area {
+      width: 100%; min-height: 280px;
+      border: none; outline: none; resize: none;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem; line-height: 1.85;
+      color: var(--text); padding: 28px;
+      background: transparent;
+    }
+    .write-area::placeholder { color: #b2c9b4; font-style: italic; }
+
+    .write-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 20px; border-top: 1px solid var(--green-pale);
+      background: rgba(232,245,233,0.3);
+    }
+    .word-count { font-size: 0.75rem; color: var(--text-soft); }
+
+    .save-btn {
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 24px; border-radius: 20px; border: none;
+      background: linear-gradient(135deg, var(--green-mid), var(--green-dark));
+      color: white; font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem; font-weight: 600; cursor: pointer;
+      box-shadow: 0 4px 14px rgba(46,125,50,0.35);
+      transition: all 0.2s;
+    }
+    .save-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(46,125,50,0.45); }
+
+    /* prompts */
+    .prompts-section { animation: fadeUp 0.6s ease 0.3s both; }
+    .prompts-section h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem; color: var(--text-mid);
+      margin-bottom: 12px; font-style: italic;
+    }
+    .prompts-grid { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 32px; }
+    .prompt-pill {
+      padding: 8px 16px; border-radius: 20px;
+      border: 1px solid rgba(165,214,167,0.5);
+      background: white; font-size: 0.82rem;
+      color: var(--text-mid); cursor: pointer;
+      transition: all 0.2s; font-family: 'DM Sans', sans-serif;
+    }
+    .prompt-pill:hover {
+      background: var(--green-pale);
+      border-color: var(--green-light);
+      color: var(--green-dark);
+      transform: translateY(-2px);
+    }
+
+    /* past entries */
+    .entries-section { animation: fadeUp 0.6s ease 0.4s both; }
+    .entries-section h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem; font-weight: 700;
+      color: var(--green-dark); margin-bottom: 18px;
+    }
+
+    .entry-card {
+      background: white; border-radius: 16px;
+      border: 1px solid rgba(165,214,167,0.35);
+      padding: 20px 24px; margin-bottom: 14px;
+      box-shadow: var(--shadow);
+      cursor: pointer; transition: all 0.2s;
+      display: flex; gap: 16px; align-items: flex-start;
+    }
+    .entry-card:hover {
+      transform: translateY(-3px); box-shadow: var(--shadow-lg);
+      border-color: rgba(76,175,80,0.3);
+    }
+    .entry-mood-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      flex-shrink: 0; margin-top: 7px;
+    }
+    .entry-content { flex: 1; }
+    .entry-date { font-size: 0.72rem; color: var(--text-soft); margin-bottom: 5px; }
+    .entry-preview {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem; color: var(--text); line-height: 1.5;
+    }
+    .entry-mood-tag {
+      font-size: 0.72rem; font-weight: 600;
+      padding: 3px 10px; border-radius: 10px;
+      background: var(--green-pale); color: var(--green-mid);
+      margin-top: 8px; display: inline-block;
+    }
+    .entry-del {
+      background: none; border: none; color: #ccc;
+      cursor: pointer; font-size: 1rem; padding: 4px;
+      transition: color 0.2s; flex-shrink: 0;
+    }
+    .entry-del:hover { color: #e57373; }
+
+    .empty-state {
+      text-align: center; padding: 40px 20px;
+      color: var(--text-soft);
+    }
+    .empty-state span { font-size: 2.5rem; display: block; margin-bottom: 12px; }
+    .empty-state p { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.05rem; }
+
+    /* toast */
+    .toast {
+      position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(80px);
+      background: var(--green-dark); color: white;
+      padding: 12px 24px; border-radius: 30px;
+      font-size: 0.85rem; font-weight: 500;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+      transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+      z-index: 9999; white-space: nowrap;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+
+    @keyframes fadeUp { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:translateY(0)} }
+
+    @media (max-width: 600px) {
+      .navbar { padding: 12px 16px; }
+      .page { padding: 30px 14px 80px; }
+      .write-area { padding: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-blob blob1"></div>
+  <div class="bg-blob blob2"></div>
+
+  <header>
+    <nav class="navbar">
+      <div class="logo" onclick="window.location.href='index.html'">
+        <div class="logo-mark">🧩</div>
+        <span>Noah AI</span>
+      </div>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="Chatbot(Main)/chatbot.html">Chat</a></li>
+        <li><a href="counselors.html">Counselors</a></li>
+      </ul>
+      <button class="nav-back" onclick="window.location.href='index.html'">← Back</button>
+    </nav>
+  </header>
+
+  <div class="page">
+    <div class="page-header">
+      <div class="page-tag">📓 Private & Secure</div>
+      <h1>Your Wellness <em>Journal</em></h1>
+      <p>A safe space to write, reflect, and grow. Your entries stay on your device.</p>
+    </div>
+
+    <!-- Mood selector -->
+    <div class="mood-bar">
+      <h3>How are you feeling today?</h3>
+      <div class="mood-options">
+        <button class="mood-chip" onclick="selectMood(this,'#66bb6a','😊 Happy')">😊 Happy</button>
+        <button class="mood-chip" onclick="selectMood(this,'#42a5f5','😌 Calm')">😌 Calm</button>
+        <button class="mood-chip" onclick="selectMood(this,'#ffb74d','😰 Anxious')">😰 Anxious</button>
+        <button class="mood-chip" onclick="selectMood(this,'#7986cb','😔 Sad')">😔 Sad</button>
+        <button class="mood-chip" onclick="selectMood(this,'#ef5350','😤 Angry')">😤 Angry</button>
+        <button class="mood-chip" onclick="selectMood(this,'#78909c','😶 Numb')">😶 Numb</button>
+        <button class="mood-chip" onclick="selectMood(this,'#ab47bc','🤯 Overwhelmed')">🤯 Overwhelmed</button>
+        <button class="mood-chip" onclick="selectMood(this,'#26a69a','🙏 Grateful')">🙏 Grateful</button>
+      </div>
+    </div>
+
+    <!-- Write area -->
+    <div class="write-card">
+      <div class="write-toolbar">
+        <button class="tool-btn" onclick="fmt('bold')"><b>B</b></button>
+        <button class="tool-btn" onclick="fmt('italic')"><i>I</i></button>
+        <button class="tool-btn" onclick="fmt('underline')"><u>U</u></button>
+        <div class="toolbar-sep"></div>
+        <button class="tool-btn" onclick="clearEntry()">🗑 Clear</button>
+        <span class="date-stamp" id="date-stamp"></span>
+      </div>
+      <textarea class="write-area" id="journal-entry"
+        placeholder="Start writing your thoughts… There's no right or wrong way. This is your space."></textarea>
+      <div class="write-footer">
+        <span class="word-count" id="word-count">0 words</span>
+        <button class="save-btn" onclick="saveEntry()">
+          💾 Save Entry
+        </button>
+      </div>
+    </div>
+
+    <!-- Writing prompts -->
+    <div class="prompts-section">
+      <h3>Need a nudge? Try a prompt →</h3>
+      <div class="prompts-grid">
+        <button class="prompt-pill" onclick="usePrompt(this)">What made me smile today?</button>
+        <button class="prompt-pill" onclick="usePrompt(this)">I'm grateful for…</button>
+        <button class="prompt-pill" onclick="usePrompt(this)">Something I want to let go of…</button>
+        <button class="prompt-pill" onclick="usePrompt(this)">One thing I did well today…</button>
+        <button class="prompt-pill" onclick="usePrompt(this)">What's been heavy on my mind?</button>
+        <button class="prompt-pill" onclick="usePrompt(this)">A small win I want to celebrate…</button>
+        <button class="prompt-pill" onclick="usePrompt(this)">I wish I could tell someone…</button>
+        <button class="prompt-pill" onclick="usePrompt(this)">Tomorrow I want to feel…</button>
+      </div>
+    </div>
+
+    <!-- Past entries -->
+    <div class="entries-section">
+      <h2>Past Entries</h2>
+      <div id="entries-list"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // Date stamp
+    const now = new Date();
+    document.getElementById('date-stamp').textContent = now.toLocaleDateString('en-IN', {
+      weekday:'long', day:'numeric', month:'long', year:'numeric'
+    });
+
+    // Word count
+    const ta = document.getElementById('journal-entry');
+    ta.addEventListener('input', () => {
+      const words = ta.value.trim().split(/\s+/).filter(w => w).length;
+      document.getElementById('word-count').textContent = words + ' word' + (words !== 1 ? 's' : '');
+    });
+
+    // Mood selection
+    let selectedMood = { label: 'Neutral', color: '#a5d6a7' };
+    function selectMood(el, color, label) {
+      document.querySelectorAll('.mood-chip').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+      selectedMood = { label, color };
+    }
+
+    // Prompts
+    function usePrompt(btn) {
+      const cur = ta.value;
+      ta.value = cur ? cur + '\n\n' + btn.textContent + '\n' : btn.textContent + '\n';
+      ta.focus();
+      ta.dispatchEvent(new Event('input'));
+    }
+
+    // Clear
+    function clearEntry() {
+      if (ta.value && confirm('Clear this entry?')) {
+        ta.value = '';
+        ta.dispatchEvent(new Event('input'));
+      }
+    }
+
+    // Format (basic)
+    function fmt(cmd) { document.execCommand(cmd); }
+
+    // Toast
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2800);
+    }
+
+    // Save
+    function saveEntry() {
+      const text = ta.value.trim();
+      if (!text) { showToast('✏️ Write something first!'); return; }
+      const entries = getEntries();
+      entries.unshift({
+        id: Date.now(),
+        date: now.toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' }),
+        fullDate: now.toLocaleString('en-IN'),
+        text,
+        mood: selectedMood
+      });
+      localStorage.setItem('noah_journal', JSON.stringify(entries));
+      ta.value = '';
+      ta.dispatchEvent(new Event('input'));
+      showToast('✅ Entry saved!');
+      renderEntries();
+    }
+
+    function getEntries() {
+      try { return JSON.parse(localStorage.getItem('noah_journal')) || []; }
+      catch { return []; }
+    }
+
+    function deleteEntry(id) {
+      if (!confirm('Delete this entry?')) return;
+      const entries = getEntries().filter(e => e.id !== id);
+      localStorage.setItem('noah_journal', JSON.stringify(entries));
+      renderEntries();
+      showToast('🗑 Entry deleted.');
+    }
+
+    function renderEntries() {
+      const list = document.getElementById('entries-list');
+      const entries = getEntries();
+      if (!entries.length) {
+        list.innerHTML = `<div class="empty-state"><span>🌱</span><p>Your first entry is waiting to be written.</p></div>`;
+        return;
+      }
+      list.innerHTML = entries.map(e => `
+        <div class="entry-card">
+          <div class="entry-mood-dot" style="background:${e.mood.color}"></div>
+          <div class="entry-content">
+            <div class="entry-date">${e.fullDate}</div>
+            <div class="entry-preview">${e.text.substring(0, 120)}${e.text.length > 120 ? '…' : ''}</div>
+            <span class="entry-mood-tag">${e.mood.label}</span>
+          </div>
+          <button class="entry-del" onclick="deleteEntry(${e.id})">✕</button>
+        </div>
+      `).join('');
+    }
+
+    renderEntries();
+  </script>
+</body>
+</html>

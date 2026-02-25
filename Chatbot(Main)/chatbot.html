@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Noah Mentor – Wellness Companion</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green-dark:  #1a4a1e;
+      --green-mid:   #2e7d32;
+      --green-light: #4caf50;
+      --green-pale:  #e8f5e9;
+      --green-bg:    #f0fff4;
+      --accent:      #a5d6a7;
+      --text:        #1a2e1c;
+      --text-mid:    #3d5c40;
+      --text-soft:   #7a9b7c;
+      --white:       #ffffff;
+      --shadow:      0 4px 24px rgba(46,125,50,0.10);
+    }
+
+    html, body { height: 100%; overflow: hidden; }
+
+    body {
+      font-family: 'DM Sans', Arial, sans-serif;
+      background: var(--green-bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      position: relative;
+    }
+
+    /* background blobs */
+    .bg-blob { position: fixed; border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: 0; animation: blobDrift 14s ease-in-out infinite alternate; }
+    .blob1 { width: 500px; height: 500px; background: rgba(165,214,167,0.3); top: -150px; left: -150px; }
+    .blob2 { width: 350px; height: 350px; background: rgba(76,175,80,0.15); bottom: -80px; right: -100px; animation-delay: -7s; }
+    @keyframes blobDrift { from{transform:translate(0,0) scale(1)} to{transform:translate(20px,15px) scale(1.06)} }
+
+    /* ── Header ── */
+    header {
+      position: relative; z-index: 10;
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px 24px;
+      background: rgba(240,255,244,0.9);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(165,214,167,0.4);
+      box-shadow: 0 2px 16px rgba(46,125,50,0.08);
+    }
+
+    .back-btn {
+      width: 34px; height: 34px; border-radius: 10px;
+      border: 1px solid rgba(46,125,50,0.2);
+      background: transparent; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--green-mid); font-size: 1rem;
+      transition: all 0.2s; flex-shrink: 0;
+    }
+    .back-btn:hover { background: var(--green-pale); }
+
+    .avatar-ring {
+      width: 44px; height: 44px; border-radius: 12px;
+      background: linear-gradient(135deg, var(--green-light), var(--green-mid));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+      box-shadow: 0 3px 12px rgba(46,125,50,0.3);
+      flex-shrink: 0;
+      animation: avatarPulse 3s ease-in-out infinite;
+    }
+    @keyframes avatarPulse {
+      0%,100% { box-shadow: 0 3px 12px rgba(46,125,50,0.3); }
+      50%      { box-shadow: 0 3px 20px rgba(46,125,50,0.5); }
+    }
+
+    .header-text { flex: 1; }
+    .header-text h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem; font-weight: 700;
+      color: var(--green-dark);
+    }
+    .header-text p {
+      font-size: 0.68rem; font-weight: 600;
+      color: var(--text-soft);
+      letter-spacing: 0.08em; text-transform: uppercase;
+      margin-top: 1px;
+    }
+
+    .status-badge {
+      display: flex; align-items: center; gap: 6px;
+      padding: 5px 12px; border-radius: 20px;
+      background: rgba(76,175,80,0.1);
+      border: 1px solid rgba(76,175,80,0.25);
+      font-size: 0.68rem; font-weight: 600;
+      color: var(--green-mid); letter-spacing: 0.05em;
+    }
+    .status-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #66bb6a; box-shadow: 0 0 6px #66bb6a;
+      animation: blink 2s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    /* ── Crisis bar ── */
+    .crisis-bar {
+      position: relative; z-index: 10;
+      background: rgba(229,57,53,0.07);
+      border-bottom: 1px solid rgba(229,57,53,0.15);
+      padding: 7px 20px; text-align: center;
+      font-size: 0.7rem; font-weight: 600; color: #c62828;
+    }
+    .crisis-bar a { color: #c62828; font-weight: 700; text-decoration: none; }
+
+    /* ── Mood chips ── */
+    .mood-strip {
+      position: relative; z-index: 10;
+      display: flex; align-items: center; gap: 8px;
+      padding: 9px 20px;
+      background: rgba(240,255,244,0.7);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(165,214,167,0.3);
+      overflow-x: auto; scrollbar-width: none;
+    }
+    .mood-strip::-webkit-scrollbar { display: none; }
+
+    .mood-label {
+      font-size: 0.62rem; font-weight: 700;
+      color: var(--text-soft); letter-spacing: 0.08em;
+      text-transform: uppercase; white-space: nowrap; flex-shrink: 0;
+    }
+
+    .chip {
+      flex-shrink: 0; padding: 5px 14px; border-radius: 30px;
+      border: 1.5px solid rgba(46,125,50,0.2);
+      background: white; font-size: 0.75rem; font-weight: 500;
+      font-family: 'DM Sans', sans-serif; color: var(--text-mid);
+      cursor: pointer; transition: all 0.2s; white-space: nowrap;
+    }
+    .chip:hover {
+      background: var(--green-pale); border-color: var(--green-light);
+      color: var(--green-dark); transform: translateY(-2px);
+      box-shadow: 0 3px 10px rgba(46,125,50,0.15);
+    }
+
+    /* ── Chat area ── */
+    .chat-area {
+      flex: 1; position: relative; z-index: 5;
+      overflow-y: auto; padding: 22px 20px;
+      display: flex; flex-direction: column; gap: 16px;
+      scroll-behavior: smooth;
+    }
+    .chat-area::-webkit-scrollbar { width: 4px; }
+    .chat-area::-webkit-scrollbar-thumb { background: rgba(46,125,50,0.2); border-radius: 10px; }
+
+    /* ── Messages ── */
+    .row { display: flex; gap: 10px; align-items: flex-end; animation: slideUp 0.35s cubic-bezier(0.16,1,0.3,1) both; }
+    .row.user { flex-direction: row-reverse; }
+    @keyframes slideUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+
+    .bot-icon {
+      width: 32px; height: 32px; border-radius: 10px; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--green-light), var(--green-mid));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem;
+      box-shadow: 0 2px 8px rgba(46,125,50,0.2);
+    }
+
+    .bubble {
+      max-width: 70%; padding: 12px 17px; border-radius: 18px;
+      font-size: 0.9rem; line-height: 1.65;
+      white-space: pre-line; word-break: break-word;
+    }
+
+    .bubble.bot {
+      background: white;
+      border: 1px solid rgba(165,214,167,0.4);
+      border-bottom-left-radius: 5px;
+      color: var(--text);
+      box-shadow: var(--shadow);
+    }
+
+    .bubble.user {
+      background: linear-gradient(135deg, var(--green-mid), var(--green-dark));
+      border-bottom-right-radius: 5px;
+      color: white;
+      box-shadow: 0 4px 16px rgba(46,125,50,0.35);
+    }
+
+    /* typing */
+    .bubble.typing { display: flex; align-items: center; gap: 5px; padding: 14px 18px; }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); animation: bounce 1.2s ease-in-out infinite; }
+    .dot:nth-child(2){animation-delay:.2s} .dot:nth-child(3){animation-delay:.4s}
+    @keyframes bounce { 0%,80%,100%{transform:translateY(0);opacity:.5} 40%{transform:translateY(-7px);opacity:1} }
+
+    /* divider */
+    .divider {
+      display: flex; align-items: center; gap: 12px;
+      font-size: 0.62rem; font-weight: 700;
+      color: var(--text-soft); letter-spacing: 0.08em; text-transform: uppercase;
+    }
+    .divider::before,.divider::after { content:''; flex:1; height:1px; background: rgba(165,214,167,0.4); }
+
+    /* ── Input area ── */
+    .input-zone {
+      position: relative; z-index: 10;
+      background: rgba(240,255,244,0.9);
+      backdrop-filter: blur(16px);
+      border-top: 1px solid rgba(165,214,167,0.3);
+      padding: 12px 18px 18px;
+    }
+
+    .disclaimer {
+      text-align: center; font-size: 0.62rem; font-weight: 500;
+      color: var(--text-soft); margin-bottom: 10px; letter-spacing: 0.02em;
+    }
+
+    .input-wrap {
+      display: flex; align-items: center; gap: 10px;
+      background: white;
+      border: 1.5px solid rgba(165,214,167,0.5);
+      border-radius: 30px; padding: 6px 6px 6px 18px;
+      box-shadow: var(--shadow);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .input-wrap:focus-within {
+      border-color: var(--green-light);
+      box-shadow: 0 0 0 3px rgba(76,175,80,0.1), var(--shadow);
+    }
+
+    .input-wrap input {
+      flex: 1; border: none; background: transparent; outline: none;
+      font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
+      color: var(--text); padding: 7px 0;
+    }
+    .input-wrap input::placeholder { color: var(--text-soft); }
+
+    .send-btn {
+      width: 40px; height: 40px; border-radius: 50%; border: none;
+      background: linear-gradient(135deg, var(--green-light), var(--green-mid));
+      color: white; display: flex; align-items: center; justify-content: center;
+      cursor: pointer; flex-shrink: 0;
+      box-shadow: 0 3px 10px rgba(46,125,50,0.35);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .send-btn:hover { transform: scale(1.08); box-shadow: 0 5px 16px rgba(46,125,50,0.45); }
+    .send-btn:active { transform: scale(0.93); }
+    .send-btn svg { width: 15px; height: 15px; }
+
+    /* ── Quote strip ── */
+    .quote-strip {
+      position: relative; z-index: 10;
+      padding: 7px 24px;
+      background: linear-gradient(135deg, var(--green-mid), var(--green-dark));
+      display: flex; align-items: center; gap: 10px;
+    }
+    .quote-strip::before {
+      content: '"'; font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem; color: rgba(255,255,255,0.3); line-height: 1; flex-shrink: 0;
+    }
+    .quote-strip span {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-size: 0.78rem;
+      color: rgba(255,255,255,0.85);
+      transition: opacity 0.4s ease;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-blob blob1"></div>
+  <div class="bg-blob blob2"></div>
+
+  <header>
+    <button class="back-btn" onclick="window.location.href='../index.html'" title="Back to Home">←</button>
+    <div class="avatar-ring">🌿</div>
+    <div class="header-text">
+      <h1>Noah Mentor</h1>
+      <p>Wellness Companion · Always Here</p>
+    </div>
+    <div class="status-badge">
+      <span class="status-dot"></span> Online
+    </div>
+  </header>
+
+  <div class="crisis-bar">
+    🆘 In crisis? Call or text <a href="tel:988">14416</a> — Suicide & Crisis Lifeline · 24/7
+  </div>
+
+  <div class="mood-strip">
+    <span class="mood-label">I feel</span>
+    <button class="chip" onclick="quickSend(this)">😔 Low</button>
+    <button class="chip" onclick="quickSend(this)">😰 Anxious</button>
+    <button class="chip" onclick="quickSend(this)">😤 Frustrated</button>
+    <button class="chip" onclick="quickSend(this)">😶 Numb</button>
+    <button class="chip" onclick="quickSend(this)">🙂 Okay</button>
+    <button class="chip" onclick="quickSend(this)">😊 Good</button>
+    <button class="chip" onclick="quickSend(this)">😴 Exhausted</button>
+    <button class="chip" onclick="quickSend(this)">😔 Lonely</button>
+    <button class="chip" onclick="quickSend(this)">😡 Angry</button>
+    <button class="chip" onclick="quickSend(this)">🤯 Overwhelmed</button>
+  </div>
+
+  <main class="chat-area" id="chat">
+    <div class="divider">Today</div>
+    <div class="row">
+      <div class="bot-icon">🌿</div>
+      <div class="bubble bot">Hello, I'm really glad you're here. 💚
+
+I'm Noah — a safe space to talk, reflect, and breathe. Whatever you're carrying today, I'm listening without judgment.
+
+How are you feeling right now?</div>
+    </div>
+  </main>
+
+  <div class="input-zone">
+    <p class="disclaimer">Noah is an AI companion — not a therapist. For emergencies, please contact a professional.</p>
+    <div class="input-wrap">
+      <input id="msg" type="text" placeholder="Share what's on your mind…" autocomplete="off" />
+      <button class="send-btn" onclick="send()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="quote-strip">
+    <span id="quote">You don't have to have it all figured out to move forward.</span>
+  </div>
+
+  <script>
+    const chat = document.getElementById('chat');
+    const msgInput = document.getElementById('msg');
+
+    // Rotating quotes
+    const quotes = [
+      "You don't have to have it all figured out to move forward.",
+      "Healing is not linear — and that's okay.",
+      "Every small step is still a step.",
+      "It's okay to rest. It doesn't mean you've given up.",
+      "Your feelings are valid, always.",
+      "Courage doesn't always roar. Sometimes it whispers 'try again tomorrow'.",
+      "You are worthy of care and kindness — especially from yourself."
+    ];
+    let qi = 0;
+    const qEl = document.getElementById('quote');
+    qEl.style.transition = 'opacity 0.4s ease';
+    setInterval(() => {
+      qEl.style.opacity = 0;
+      setTimeout(() => { qi = (qi+1)%quotes.length; qEl.textContent = quotes[qi]; qEl.style.opacity = 1; }, 400);
+    }, 7000);
+
+    msgInput.addEventListener('keypress', e => {
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); }
+    });
+
+    function quickSend(btn) {
+      msgInput.value = `I'm feeling ${btn.textContent.trim()}`;
+      send();
+    }
+
+    function esc(s) {
+      return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    function addTyping() {
+      const row = document.createElement('div');
+      row.className = 'row'; row.id = 'typing';
+      row.innerHTML = `<div class="bot-icon">🌿</div><div class="bubble bot typing"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>`;
+      chat.appendChild(row);
+      chat.scrollTop = chat.scrollHeight;
+      return row;
+    }
+
+    function addUser(text) {
+      const row = document.createElement('div');
+      row.className = 'row user';
+      row.innerHTML = `<div class="bubble user">${esc(text)}</div>`;
+      chat.appendChild(row);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function typeBot(text) {
+      const row = document.createElement('div');
+      row.className = 'row';
+      const bubble = document.createElement('div');
+      bubble.className = 'bubble bot';
+      row.innerHTML = `<div class="bot-icon">🌿</div>`;
+      row.appendChild(bubble);
+      chat.appendChild(row);
+      let i = 0;
+      const iv = setInterval(() => {
+        bubble.textContent += text[i]; i++;
+        chat.scrollTop = chat.scrollHeight;
+        if (i >= text.length) clearInterval(iv);
+      }, 22);
+    }
+
+    async function send() {
+      const text = msgInput.value.trim();
+      if (!text) return;
+      msgInput.value = ''; msgInput.focus();
+      addUser(text);
+      const typing = addTyping();
+      try {
+        const res = await fetch('http://localhost:3000/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: text })
+        });
+        const data = await res.json();
+        typing.remove();
+        typeBot(data.reply);
+      } catch {
+        typing.remove();
+        typeBot("I'm having a little trouble connecting right now. Please try again — I'm still here for you. 💚");
+      }
+    }
+  </script>
+</body>
+</html>
